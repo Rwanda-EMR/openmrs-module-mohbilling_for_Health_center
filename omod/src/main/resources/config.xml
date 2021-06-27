@@ -2,13 +2,15 @@
 <!DOCTYPE module PUBLIC "-//OpenMRS//DTD OpenMRS Config 1.2//EN" "http://resources.openmrs.org/doctype/config-1.2.dtd">
 
 <module configVersion="1.2">
+
+    <!-- Base Module Properties -->
     <id>mohbilling</id>
     <name>MoH Billing Module</name>
-    <version>0.0.6.3-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <package>org.openmrs.module.@MODULE_ID@</package>
     <author>MoH Rwanda</author>
     <description>
-        MoH-Billing Module. Useful for managing Rwanda Hospitals/HCs Billing system.
+        MoH-Billing Module. Useful for managing Rwanda HCs Billing system.
     </description>
 
     <activator>@MODULE_PACKAGE@.MohBillingActivator</activator>
@@ -18,8 +20,14 @@
     -->
     <!-- /Base Module Properties -->
 
-    <require_version>1.6.2.12911</require_version>
-    <!-- <require_version>1.6.1.12909</require_version> -->
+    <require_version>${openMRSVersion}</require_version>
+    <require_modules>
+        <require_module>org.openmrs.module.htmlformentry</require_module>
+    </require_modules>
+
+    <aware_of_modules>
+        <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+    </aware_of_modules>
 
     <!-- Extensions -->
     <extension>
@@ -370,7 +378,7 @@
         <name>Migration Cashier</name>
         <description>Allows the user to viewer Migration Cashier </description>
     </privilege>
-    View Provider DCP Report
+
     <privilege>
         <name>View Bulk Update</name>
         <description>Allows the user to view View Facility service by insurance campanies</description>
@@ -379,11 +387,6 @@
     <privilege>
         <name>Patient Receipts - Print Only Paid Items</name>
         <description>Allows the user to print only selected items during payment</description>
-    </privilege>
-
-    <privilege>
-        <name>View Provider DCP Report</name>
-        <description>View Provider DCP Report</description>
     </privilege>
 
 
