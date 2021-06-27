@@ -1,0 +1,56 @@
+<%@ include file="/WEB-INF/template/include.jsp"%>
+<%@ include file="/WEB-INF/template/header.jsp"%>
+<%@ include file="templates/mohBillingLocalHeader.jsp"%>
+<%@ include file="templates/mohBillingAdminHeader.jsp"%>
+
+<openmrs:require privilege="View Facility service" otherwise="/login.htm" redirect="/module/@MODULE_ID@/facilityService.list" />
+
+<h2><spring:message code="@MODULE_ID@.facility.service.manage" /></h2>
+<openmrs:hasPrivilege privilege="Add Facility service">
+<a href="facilityService.form"><spring:message code="@MODULE_ID@.facility.service.add" /></a>
+</openmrs:hasPrivilege>
+
+<br/><br/>
+
+<b class="boxHeader"><spring:message code="@MODULE_ID@.facility.service.current" /></b>
+<div class="box">
+	<table width="99%">
+		<tr>
+			<th class="columnHeader"></th>
+			<th class="columnHeader">Name</th>
+			<th class="columnHeader">Category</th>
+			<th class="columnHeader">Description</th>
+			<th class="columnHeader">Related Concept</th>
+			<th class="columnHeader">Full Price</th>
+			<th class="columnHeader">Item Type</th>
+			<td class="columnHeader">Item Status</td>
+			<td class="columnHeader">Details</td>
+			<th class="columnHeader"></th>
+		</tr>
+		<c:if test="${empty facilityServices}"><tr><td colspan="9"><center>No Facility Services found !</center></td></tr></c:if>
+		<c:forEach items="${facilityServices}" var="facilityService" varStatus="status">
+			<c:set var="checkStatus" value="${facilityService.hidden}"/>
+			<tr	<c:if test="${checkStatus==true}">bgcolor="#d2b48c" </c:if>>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">${status.count}. </td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}"><a href="facilityService.form?facilityServiceId=${facilityService.facilityServicePriceId}">${facilityService.name}</a></td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">
+					${facilityService.category}
+					<c:if test="${empty facilityService.category}">
+						<a style="color: red;" href="facilityService.list?facilityServiceId=${facilityService.facilityServicePriceId}">ADD CATEGORY</a>
+					</c:if>
+				</td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">${facilityService.description}</td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">${facilityService.concept.name}</td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}"><b style="color: blue;">${facilityService.fullPrice}</b> Rwf</td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">${(facilityService.itemType=='1')?'Ordinary':'DCP'}</td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">${(facilityService.hidden==false)?'Available':'Not Available'}</td>
+				<td class="rowValue ${(status.count%2!=0)?'even':''}">
+					<openmrs:hasPrivilege privilege="View Bulk Update">
+						<a href="facilityServiceByInsuranceCompany.list?facilityServiceId=${facilityService.facilityServicePriceId}">Details</a>
+					</openmrs:hasPrivilege>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
+<%@ include file="/WEB-INF/template/footer.jsp"%>
